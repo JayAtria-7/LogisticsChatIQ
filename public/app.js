@@ -456,11 +456,11 @@ class ChatApp {
     const importResult = document.getElementById('import-result');
 
     // Validate file type
-    const allowedExtensions = ['.csv', '.json', '.pdf'];
+    const allowedExtensions = ['.csv', '.json', '.pdf', '.txt'];
     const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
     
     if (!allowedExtensions.includes(fileExtension)) {
-      this.showToast('Invalid file type. Please upload CSV, JSON, or PDF files.', 'error');
+      this.showToast('Invalid file type. Please upload CSV, JSON, PDF, or TXT files.', 'error');
       return;
     }
 
