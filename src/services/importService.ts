@@ -665,6 +665,13 @@ export class ImportService {
     const now = new Date();
 
     // Try different extraction strategies
+    
+    // First, try to extract from exported summary format (📦 PACKAGE format)
+    const summaryPackages = this.extractFromSummary(text, now);
+    if (summaryPackages.length > 0) {
+      return summaryPackages;
+    }
+
     const invoicePackages = this.extractFromInvoice(text, now);
     if (invoicePackages.length > 0) {
       return invoicePackages;
@@ -675,6 +682,121 @@ export class ImportService {
       return manifestPackages;
     }
 
+    return packages;
+  }
+
+  /**
+   * Extract package data from exported summary format (📦 PACKAGE 1, etc.)
+   */
+  private extractFromSummary(text: string, timestamp: Date): Package[] {
+    const packages: Package[] = [];
+    
+    // Split by package sections using various markers
+    const packageSections = text.split(/(?:📦\s*PACKAGE\s+\d+|─{10,})/i).filter(s => s.trim().length > 50);
+    
+    for (const section of packageSections) {
+      const lines = section.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+      
+      const pkg: Partial<Package> = {
+        id: uuidv4(),
+        destination: {} as Address
+      };
+      
+      for (const line of lines) {
+        // Extract Type
+        if (/Type:\s*(\w+)/i.test(line)) {
+          const match = line.match(/Type:\s*(\w+)/i);
+          if (match) pkg.packageType = this.parsePackageType(match[1]);
+        }
+        
+        // Extract Dimensions (30 × 20 × 15 cm format)
+        if (/Dimensions:\s*(\d+\.?\d*)\s*[×x]\s*(\d+\.?\d*)\s*[×x]\s*(\d+\.?\d*)\s*(cm|inch|m|mm)/i.test(line)) {
+          const match = line.match(/Dimensions:\s*(\d+\.?\d*)\s*[×x]\s*(\d+\.?\d*)\s*[×x]\s*(\d+\.?\d*)\s*(cm|inch|m|mm)/i);
+          if (match) {
+            pkg.dimensions = {
+              length: parseFloat(match[1]),
+              width: parseFloat(match[2]),
+              height: parseFloat(match[3]),
+              unit: this.parseDimensionUnit(match[4])
+            };
+          }
+        }
+        
+        // Extract Weight
+        if (/Weight:\s*(\d+\.?\d*)\s*(kg|g|lbs|oz)/i.test(line)) {
+          const match = line.match(/Weight:\s*(\d+\.?\d*)\s*(kg|g|lbs|oz)/i);
+          if (match) {
+            pkg.weight = {
+              value: parseFloat(match[1]),
+              unit: this.parseWeightUnit(match[2])
+            };
+          }
+        }
+        
+        // Extract Fragile
+        if (/Fragile:\s*(Yes|No|⚠️)/i.test(line)) {
+          pkg.isFragile = /Yes|⚠️/i.test(line);
+        }
+        
+        // Extract Priority
+        if (/Priority:\s*(\w+)/i.test(line)) {
+          const match = line.match(/Priority:\s*(\w+)/i);
+          if (match) {
+            const priority = match[1].toUpperCase();
+            pkg.priority = priority as PriorityLevel || PriorityLevel.STANDARD;
+          }
+        }
+        
+        // Extract destination city, state, postal code, country
+        // Look for patterns like: "New York, Uttar Pradesh 201306"
+        const locationMatch = line.match(/([A-Za-z\s]+),\s*([A-Za-z\s]+)\s+(\d{5,6})/);
+        if (locationMatch) {
+          (pkg.destination as Address).city = locationMatch[1].trim();
+          (pkg.destination as Address).state = locationMatch[2].trim();
+          (pkg.destination as Address).postalCode = locationMatch[3];
+        }
+        
+        // Extract country (line with just country name or "India", "USA", etc.)
+        if (/^\s*(India|USA|United States|UK|United Kingdom|Canada|Australia)\s*$/i.test(line)) {
+          (pkg.destination as Address).country = this.expandCountryCode(line.trim());
+        }
+        
+        // Extract street address
+        if (line.includes(',') && line.length > 20 && !line.includes(':') && !locationMatch) {
+          const dest = pkg.destination as Address;
+          if (!dest.street || dest.street === '') {
+            dest.street = line;
+          }
+        }
+        
+        // Extract special instructions
+        if (/SPECIAL INSTRUCTIONS:/i.test(line)) {
+          const nextLineIdx = lines.indexOf(line) + 1;
+          if (nextLineIdx < lines.length) {
+            pkg.specialInstructions = lines[nextLineIdx];
+          }
+        }
+        
+        // Extract value
+        if (/VALUE:\s*USD\s*(\d+\.?\d*)/i.test(line)) {
+          const match = line.match(/VALUE:\s*USD\s*(\d+\.?\d*)/i);
+          if (match) {
+            pkg.estimatedValue = parseFloat(match[1]);
+          }
+        }
+        
+        // Extract insurance
+        if (/INSURANCE:\s*(YES|NO)/i.test(line)) {
+          pkg.insuranceRequired = /YES/i.test(line);
+        }
+      }
+      
+      // Validate and add package
+      if (this.isValidPackage(pkg)) {
+        packages.push(this.finalizePackage(pkg, timestamp));
+      }
+    }
+    
     return packages;
   }
 

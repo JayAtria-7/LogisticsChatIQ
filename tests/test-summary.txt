@@ -1,0 +1,56 @@
+╔════════════════════════════════════════════════════════════╗
+║         PACKAGE COLLECTION SESSION SUMMARY                 ║
+╚════════════════════════════════════════════════════════════╝
+
+────────────────────────────────────────────────────────────
+
+📦 PACKAGE 1
+────────────────────────────────────────────────────────────
+  ID: 451a2738-448d-4c40-a5b9-132113600a58
+  Type: BOX
+  Dimensions: 30 × 20 × 15 cm
+  Weight: 2 kg
+  Fragile: No
+  Priority: STANDARD
+
+  📍 DESTINATION:
+     Greater Noida, Uttar Pradesh 201306
+     India
+
+────────────────────────────────────────────────────────────
+
+📦 PACKAGE 2
+────────────────────────────────────────────────────────────
+  ID: 262282b2-d13c-4078-8b38-227350085319
+  Type: ENVELOPE
+  Dimensions: 10 × 5 × 3 cm
+  Weight: 5 g
+  Fragile: ⚠️  YES
+  Priority: STANDARD
+
+  📍 DESTINATION:
+     Los Angeles, California 90001
+     USA
+
+  💰 VALUE: USD 210.00
+  🛡️  INSURANCE: NO
+
+────────────────────────────────────────────────────────────
+
+📦 PACKAGE 3
+────────────────────────────────────────────────────────────
+  ID: 3c9b7dd6-92ac-48ea-b199-69fa2ff2411b
+  Type: ENVELOPE
+  Dimensions: 10 × 233 × 10 cm
+  Weight: 56 kg
+  Fragile: No
+  Priority: STANDARD
+
+  📍 DESTINATION:
+     Seattle, Washington 98101
+     USA
+
+  💰 VALUE: USD 521.00
+  🛡️  INSURANCE: NO
+
+────────────────────────────────────────────────────────────
