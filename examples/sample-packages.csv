@@ -1,0 +1,6 @@
+type,length,width,height,dimension_unit,weight,weight_unit,fragile,priority,street,city,state,postal_code,country,sender_name,sender_email,special_instructions,estimated_value,insurance
+box,30,20,15,cm,5,kg,true,standard,123 Main St,New York,NY,10001,USA,John Doe,john@example.com,Handle with care,100,true
+envelope,25,18,2,cm,0.5,kg,false,express,456 Oak Ave,Los Angeles,CA,90001,USA,Jane Smith,jane@example.com,Documents enclosed,50,false
+crate,100,80,60,cm,45,kg,true,standard,789 Pine Rd,Chicago,IL,60601,USA,Bob Johnson,bob@example.com,Industrial equipment,5000,true
+box,40,30,25,cm,8,kg,false,overnight,321 Elm St,Houston,TX,77001,USA,Alice Brown,alice@example.com,Overnight delivery required,200,true
+tube,90,10,10,cm,2,kg,false,standard,654 Maple Dr,Phoenix,AZ,85001,USA,Charlie Davis,charlie@example.com,Rolled posters,75,false

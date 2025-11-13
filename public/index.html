@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Advanced Package Collection Chatbot - Intelligent multi-package data collection">
+    <title>Package Collection Chatbot</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <span class="logo-icon">📦</span>
+                    <h1>Package Chatbot</h1>
+                </div>
+                <div class="header-actions">
+                    <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">
+                        <span class="theme-icon">🌙</span>
+                    </button>
+                    <button id="summary-btn" class="icon-btn" aria-label="View summary">
+                        <span>📊</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Sidebar (Desktop) / Bottom Sheet (Mobile) -->
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-header">
+                    <h2>Packages</h2>
+                    <button class="close-btn" id="close-sidebar">✕</button>
+                </div>
+                <div class="packages-list" id="packages-list">
+                    <div class="empty-state">
+                        <span class="empty-icon">📭</span>
+                        <p>No packages yet</p>
+                        <small>Start adding packages through chat</small>
+                    </div>
+                </div>
+                <div class="sidebar-footer">
+                    <div class="total-cost" id="total-cost">
+                        <span>Total Cost:</span>
+                        <strong>$0.00</strong>
+                    </div>
+                    <button class="btn btn-secondary" id="import-btn">
+                        <span>📥</span> Import Data
+                    </button>
+                    <button class="btn btn-primary" id="export-btn">
+                        <span>💾</span> Export Data
+                    </button>
+                </div>
+            </aside>
+
+            <!-- Chat Area -->
+            <section class="chat-container">
+                <!-- Chat Messages -->
+                <div class="chat-messages" id="chat-messages">
+                    <div class="welcome-banner">
+                        <div class="banner-icon">🚀</div>
+                        <h2>Welcome to Package Collection!</h2>
+                        <p>I'll help you collect detailed package information through our conversation.</p>
+                    </div>
+                </div>
+
+                <!-- Typing Indicator -->
+                <div class="typing-indicator" id="typing-indicator" style="display: none;">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+
+                <!-- Suggestions -->
+                <div class="suggestions" id="suggestions"></div>
+
+                <!-- Input Area -->
+                <div class="chat-input-container">
+                    <div class="chat-input-wrapper">
+                        <textarea 
+                            id="chat-input" 
+                            class="chat-input" 
+                            placeholder="Type your message..."
+                            rows="1"
+                            maxlength="500"
+                        ></textarea>
+                        <button id="send-btn" class="send-btn" aria-label="Send message">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="input-footer">
+                        <small class="char-count"><span id="char-count">0</span>/500</small>
+                        <small class="tip">Press Enter to send • Shift+Enter for new line</small>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Export Modal -->
+        <div class="modal" id="export-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Export Data</h3>
+                    <button class="close-btn" id="close-export-modal">✕</button>
+                </div>
+                <div class="modal-body">
+                    <p>Choose export format:</p>
+                    <div class="export-options">
+                        <button class="export-option" data-format="json">
+                            <span class="option-icon">📄</span>
+                            <strong>JSON</strong>
+                            <small>Structured data format</small>
+                        </button>
+                        <button class="export-option" data-format="csv">
+                            <span class="option-icon">📊</span>
+                            <strong>CSV</strong>
+                            <small>Spreadsheet compatible</small>
+                        </button>
+                        <button class="export-option" data-format="summary">
+                            <span class="option-icon">📝</span>
+                            <strong>Summary</strong>
+                            <small>Human-readable text</small>
+                        </button>
+                        <button class="export-option" data-format="pdf">
+                            <span class="option-icon">📑</span>
+                            <strong>PDF</strong>
+                            <small>Print-ready document</small>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Import Modal -->
+        <div class="modal" id="import-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Import Data</h3>
+                    <button class="close-btn" id="close-import-modal">✕</button>
+                </div>
+                <div class="modal-body">
+                    <p>Upload a file to import package data:</p>
+                    
+                    <div class="upload-area" id="upload-area">
+                        <div class="upload-icon">📁</div>
+                        <p class="upload-text">
+                            <strong>Click to select</strong> or drag and drop
+                        </p>
+                        <p class="upload-hint">Supports CSV, JSON, and PDF files (max 10MB)</p>
+                        <input type="file" id="file-input" accept=".csv,.json,.pdf" hidden>
+                    </div>
+
+                    <div class="upload-info" id="upload-info" style="display: none;">
+                        <div class="file-preview">
+                            <span class="file-icon">📄</span>
+                            <div class="file-details">
+                                <strong id="file-name"></strong>
+                                <small id="file-size"></small>
+                            </div>
+                            <button class="remove-file-btn" id="remove-file">✕</button>
+                        </div>
+                    </div>
+
+                    <div class="import-result" id="import-result" style="display: none;"></div>
+
+                    <div class="modal-actions">
+                        <a href="/api/import/template" download class="btn btn-link">
+                            📥 Download CSV Template
+                        </a>
+                        <button class="btn btn-primary" id="upload-btn" disabled>
+                            <span>⬆️</span> Upload & Import
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Complete Package Modal -->
+        <div class="modal" id="complete-package-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Complete Package Information</h3>
+                    <button class="close-btn" id="close-complete-modal">✕</button>
+                </div>
+                <div class="modal-body">
+                    <p class="modal-description">Some required information is missing. Please fill in the fields below:</p>
+                    
+                    <div id="incomplete-packages-list"></div>
+
+                    <div class="modal-actions">
+                        <button class="btn btn-secondary" id="skip-incomplete">Skip</button>
+                        <button class="btn btn-primary" id="submit-complete">Complete Package</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast Notifications -->
+        <div class="toast-container" id="toast-container"></div>
+
+        <!-- Connection Status -->
+        <div class="connection-status" id="connection-status">
+            <span class="status-dot"></span>
+            <span class="status-text">Connecting...</span>
+        </div>
+    </div>
+
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script src="/app.js"></script>
+</body>
+</html>
