@@ -23,7 +23,9 @@ const io = new SocketIOServer(httpServer, {
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '../public')));
+// Serve static files from public directory (works in both dev and production)
+const publicPath = path.join(__dirname, process.env.NODE_ENV === 'production' ? 'public' : '../public');
+app.use(express.static(publicPath));
 
 // Multer configuration for file uploads
 const upload = multer({
@@ -345,7 +347,8 @@ app.post('/api/import/complete', (req, res) => {
 
 // Serve React app for all other routes
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/index.html'));
+  const indexPath = path.join(__dirname, process.env.NODE_ENV === 'production' ? 'public/index.html' : '../public/index.html');
+  res.sendFile(indexPath);
 });
 
 
