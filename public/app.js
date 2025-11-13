@@ -27,6 +27,20 @@ class ChatApp {
     this.attachEventListeners();
     this.autoResizeTextarea();
     this.initFileUpload();
+    this.ensureInputEnabled();
+  }
+
+  ensureInputEnabled() {
+    // Ensure chat input is enabled and ready
+    const chatInput = document.getElementById('chat-input');
+    if (chatInput) {
+      chatInput.disabled = false;
+      chatInput.readOnly = false;
+      // Focus input after a short delay to ensure page is fully loaded
+      setTimeout(() => {
+        chatInput.focus();
+      }, 500);
+    }
   }
 
   initTheme() {
