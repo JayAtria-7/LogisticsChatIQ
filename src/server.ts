@@ -249,8 +249,10 @@ app.post('/api/import', upload.single('file'), async (req, res) => {
       format = ImportFormat.JSON;
     } else if (ext === '.pdf' || req.file.mimetype === 'application/pdf') {
       format = ImportFormat.PDF;
+    } else if (ext === '.txt' || req.file.mimetype === 'text/plain') {
+      format = ImportFormat.TXT;
     } else {
-      return res.status(400).json({ error: 'Unsupported file format' });
+      return res.status(400).json({ error: 'Unsupported file format. Supported: CSV, JSON, PDF, TXT' });
     }
 
     // Import the file

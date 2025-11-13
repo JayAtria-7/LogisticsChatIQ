@@ -8,7 +8,8 @@ import { v4 as uuidv4 } from 'uuid';
 export enum ImportFormat {
   CSV = 'csv',
   JSON = 'json',
-  PDF = 'pdf'
+  PDF = 'pdf',
+  TXT = 'txt'
 }
 
 /**
@@ -87,6 +88,8 @@ export class ImportService {
           return await this.importFromJSON(fileBuffer);
         case ImportFormat.PDF:
           return await this.importFromPDF(fileBuffer);
+        case ImportFormat.TXT:
+          return await this.importFromTXT(fileBuffer);
         default:
           throw new Error(`Unsupported format: ${format}`);
       }
@@ -425,6 +428,73 @@ export class ImportService {
       result.errors.push({
         row: 0,
         message: `PDF parsing error: ${error instanceof Error ? error.message : 'Unknown error'}`
+      });
+    }
+
+    return result;
+  }
+
+  /**
+   * Import packages from TXT file
+   * Supports plain text with structured or semi-structured format
+   */
+  private async importFromTXT(fileBuffer: Buffer): Promise<ImportResult> {
+    const result: ImportResult = {
+      success: true,
+      totalRecords: 0,
+      successfulImports: 0,
+      failedImports: 0,
+      packages: [],
+      incompletePackages: [],
+      errors: [],
+      warnings: []
+    };
+
+    try {
+      const text = fileBuffer.toString('utf-8');
+      
+      // Try to extract structured data from text
+      const packages = this.extractPackagesFromText(text);
+      
+      result.totalRecords = packages.length;
+
+      // Validate each package and separate complete from incomplete
+      for (const pkg of packages) {
+        const validation = this.validatePackage(pkg);
+        
+        if (validation.isComplete) {
+          result.packages.push(pkg);
+          result.successfulImports++;
+        } else {
+          // Create incomplete package for user to fill in
+          const incompletePackage: IncompletePackage = {
+            id: uuidv4(),
+            partialData: pkg,
+            missingFields: validation.missingFields,
+            extractedText: text.substring(0, 500) // First 500 chars for context
+          };
+          result.incompletePackages!.push(incompletePackage);
+        }
+      }
+
+      result.success = result.packages.length > 0 || result.incompletePackages!.length > 0;
+
+      if (packages.length === 0) {
+        result.warnings.push({
+          row: 0,
+          message: 'No package data could be extracted from text file. Supported formats: CSV-like, JSON-like, or key-value pairs.'
+        });
+      } else if (result.incompletePackages!.length > 0) {
+        result.warnings.push({
+          row: 0,
+          message: `Found ${result.incompletePackages!.length} package(s) with missing information. Please review and complete the required fields.`
+        });
+      }
+    } catch (error) {
+      result.success = false;
+      result.errors.push({
+        row: 0,
+        message: `TXT parsing error: ${error instanceof Error ? error.message : 'Unknown error'}`
       });
     }
 
