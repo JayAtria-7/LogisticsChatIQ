@@ -1,3 +1,11 @@
+/**
+ * LogisticsChatIQ - Session Manager
+ * Author: Jay Atria
+ * GitHub: https://github.com/JayAtria-7
+ * License: MIT
+ * Description: Manages user sessions and conversation state persistence
+ */
+
 import { v4 as uuidv4 } from 'uuid';
 import * as fs from 'fs';
 import * as path from 'path';

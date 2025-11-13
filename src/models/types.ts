@@ -1,40 +1,20 @@
 /**
- * Package types supported by the system
+ * LogisticsChatIQ - Type Definitions
+ * Author: Jay Atria
+ * GitHub: https://github.com/JayAtria-7
+ * License: MIT
+ * Description: Core TypeScript interfaces and types for shipping logistics
  */
-export enum PackageType {
-  BOX = 'box',
-  ENVELOPE = 'envelope',
-  CRATE = 'crate',
-  PALLET = 'pallet',
-  TUBE = 'tube',
-  OTHER = 'other'
-}
 
-/**
- * Priority levels for shipping
- */
-export enum PriorityLevel {
-  STANDARD = 'standard',
-  EXPRESS = 'express',
-  OVERNIGHT = 'overnight',
-  SAME_DAY = 'same_day'
-}
-
-/**
- * Unit types for measurements
- */
-export enum DimensionUnit {
-  CM = 'cm',
-  INCH = 'inch',
-  M = 'm'
-}
-
-export enum WeightUnit {
-  KG = 'kg',
-  LBS = 'lbs',
-  G = 'g',
-  OZ = 'oz'
-}
+import {
+  PackageType,
+  PriorityLevel,
+  DimensionUnit,
+  WeightUnit,
+  ConversationState,
+  Intent,
+  EntityType
+} from './enums';
 
 /**
  * Dimensions of a package

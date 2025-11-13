@@ -1,4 +1,13 @@
-import { Package, PriorityLevel, WeightUnit } from '../models/types';
+/**
+ * LogisticsChatIQ - Shipping Calculator
+ * Author: Jay Atria
+ * GitHub: https://github.com/JayAtria-7
+ * License: MIT
+ * Description: Calculates shipping costs and delivery estimates based on package properties
+ */
+
+import { Package } from '../models/types';
+import { PriorityLevel, WeightUnit } from '../models/enums';
 
 /**
  * Shipping cost calculator utility

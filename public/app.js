@@ -1,3 +1,11 @@
+/**
+ * LogisticsChatIQ - Web Client Application
+ * Author: Jay Atria
+ * GitHub: https://github.com/JayAtria-7
+ * License: MIT
+ * Description: Frontend JavaScript for real-time chat interface and package management
+ */
+
 // ========================================
 // Application State
 // ========================================

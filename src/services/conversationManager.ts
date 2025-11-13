@@ -1,13 +1,17 @@
+/**
+ * LogisticsChatIQ - Conversation Manager
+ * Author: Jay Atria
+ * GitHub: https://github.com/JayAtria-7
+ * License: MIT
+ * Description: Manages conversational flow for collecting shipping package information
+ */
+
 import { SessionManager } from './sessionManager';
 import { NLPProcessor, NLPResult } from '../nlp/processor';
 import { PackageValidator } from '../validators/packageValidator';
-import { ConversationState, Intent } from '../models/enums';
+import { ConversationState, Intent, PackageType, PriorityLevel, DimensionUnit, WeightUnit } from '../models/enums';
 import {
   Package,
-  PackageType,
-  PriorityLevel,
-  DimensionUnit,
-  WeightUnit,
   Dimensions,
   Weight,
   Address

@@ -1,4 +1,12 @@
 /**
+ * LogisticsChatIQ - Formatter Utility
+ * Author: Jay Atria
+ * GitHub: https://github.com/JayAtria-7
+ * License: MIT
+ * Description: Formats package data for display and export
+ */
+
+/**
  * Color codes for terminal output
  */
 export const Colors = {

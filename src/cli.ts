@@ -1,3 +1,11 @@
+/**
+ * LogisticsChatIQ - CLI Interface
+ * Author: Jay Atria
+ * GitHub: https://github.com/JayAtria-7
+ * License: MIT
+ * Description: Command-line interface for interactive shipping logistics chatbot
+ */
+
 import * as readline from 'readline';
 import { SessionManager } from './services/sessionManager';
 import { ConversationManager, BotResponse } from './services/conversationManager';

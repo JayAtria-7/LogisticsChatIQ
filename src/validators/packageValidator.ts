@@ -1,9 +1,19 @@
+/**
+ * LogisticsChatIQ - Package Validator
+ * Author: Jay Atria
+ * GitHub: https://github.com/JayAtria-7
+ * License: MIT
+ * Description: Validates and sanitizes package data for completeness and correctness
+ */
+
 import Joi from 'joi';
 import {
   PackageType,
   PriorityLevel,
   DimensionUnit,
-  WeightUnit,
+  WeightUnit
+} from '../models/enums';
+import {
   Package,
   Dimensions,
   Weight,

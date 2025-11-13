@@ -18,7 +18,7 @@
     "data-collection",
     "nlp"
   ],
-  "author": "",
+  "author": "Jay Atria (https://github.com/JayAtria-7)",
   "license": "MIT",
   "dependencies": {
     "chalk": "^4.1.2",

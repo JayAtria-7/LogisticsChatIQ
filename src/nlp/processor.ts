@@ -1,5 +1,13 @@
-import { Intent, EntityType } from '../models/enums';
-import { PackageType, PriorityLevel, DimensionUnit, WeightUnit } from '../models/types';
+/**
+ * LogisticsChatIQ - NLP Processor
+ * Author: Jay Atria
+ * GitHub: https://github.com/JayAtria-7
+ * License: MIT
+ * Description: Natural language processing for extracting shipping information from user input
+ */
+
+import {
+  PackageType, PriorityLevel, DimensionUnit, WeightUnit, Intent, EntityType } from '../models/enums';
 
 /**
  * Entity extracted from user input

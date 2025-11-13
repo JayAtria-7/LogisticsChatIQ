@@ -1,3 +1,11 @@
+/**
+ * LogisticsChatIQ - NLP Processor Tests
+ * Author: Jay Atria
+ * GitHub: https://github.com/JayAtria-7
+ * License: MIT
+ * Description: Unit tests for natural language processing functionality
+ */
+
 import { NLPProcessor } from '../nlp/processor';
 import { Intent, EntityType } from '../models/enums';
 import { PackageType, PriorityLevel } from '../models/types';

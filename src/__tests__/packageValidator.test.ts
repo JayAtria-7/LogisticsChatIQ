@@ -1,3 +1,11 @@
+/**
+ * LogisticsChatIQ - Package Validator Tests
+ * Author: Jay Atria
+ * GitHub: https://github.com/JayAtria-7
+ * License: MIT
+ * Description: Unit tests for package data validation
+ */
+
 import { PackageValidator } from '../validators/packageValidator';
 import { DimensionUnit, WeightUnit, PackageType, PriorityLevel } from '../models/types';
 

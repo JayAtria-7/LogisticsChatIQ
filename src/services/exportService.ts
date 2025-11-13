@@ -1,3 +1,11 @@
+/**
+ * LogisticsChatIQ - Export Service
+ * Author: Jay Atria
+ * GitHub: https://github.com/JayAtria-7
+ * License: MIT
+ * Description: Handles exporting package data to various formats (JSON, CSV, TXT)
+ */
+
 import * as fs from 'fs';
 import * as path from 'path';
 import { Session, ExportData, Package } from '../models/types';

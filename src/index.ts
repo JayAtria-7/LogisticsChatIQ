@@ -1,3 +1,11 @@
+/**
+ * LogisticsChatIQ - Main Entry Point
+ * Author: Jay Atria
+ * GitHub: https://github.com/JayAtria-7
+ * License: MIT
+ * Description: Core module exports for LogisticsChatIQ application
+ */
+
 export { ChatbotCLI } from './cli';
 export { SessionManager } from './services/sessionManager';
 export { ConversationManager } from './services/conversationManager';

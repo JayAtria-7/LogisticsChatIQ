@@ -1,3 +1,11 @@
+/**
+ * LogisticsChatIQ - Web Server
+ * Author: Jay Atria
+ * GitHub: https://github.com/JayAtria-7
+ * License: MIT
+ * Description: Express server with Socket.IO for real-time logistics chat and import functionality
+ */
+
 import express from 'express';
 import { createServer } from 'http';
 import { Server as SocketIOServer } from 'socket.io';

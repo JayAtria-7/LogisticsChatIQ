@@ -1,6 +1,15 @@
-import { Package, PackageType, PriorityLevel, DimensionUnit, WeightUnit, Address } from '../models/types';
+/**
+ * LogisticsChatIQ - Import Service
+ * Author: Jay Atria
+ * GitHub: https://github.com/JayAtria-7
+ * License: MIT
+ * Description: Handles importing package data from CSV, JSON, PDF, and TXT formats
+ */
+
 import Papa from 'papaparse';
 import { v4 as uuidv4 } from 'uuid';
+import { Package, Address } from '../models/types';
+import { PackageType, PriorityLevel, DimensionUnit, WeightUnit } from '../models/enums';
 
 /**
  * Supported import file formats

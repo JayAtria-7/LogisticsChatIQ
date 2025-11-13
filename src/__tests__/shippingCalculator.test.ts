@@ -1,3 +1,11 @@
+/**
+ * LogisticsChatIQ - Shipping Calculator Tests
+ * Author: Jay Atria
+ * GitHub: https://github.com/JayAtria-7
+ * License: MIT
+ * Description: Unit tests for shipping cost calculation
+ */
+
 import { ShippingCalculator } from '../utils/shippingCalculator';
 import { Package, PriorityLevel, WeightUnit, DimensionUnit, PackageType } from '../models/types';
 
