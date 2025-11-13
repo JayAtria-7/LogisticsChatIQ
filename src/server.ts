@@ -34,17 +34,17 @@ const upload = multer({
     fileSize: 10 * 1024 * 1024 // 10MB max file size
   },
     fileFilter: (req, file, cb) => {
-      // Accept common CSV/JSON/PDF mime types and fallback to extension check
+      // Accept common CSV/JSON/PDF/TXT mime types and fallback to extension check
       const allowedTypes = ['text/csv', 'application/csv', 'application/json', 'application/pdf', 'text/plain', 'application/octet-stream', 'application/vnd.ms-excel'];
       const allowedExtensions = ['.csv', '.json', '.pdf', '.txt'];
 
       const ext = path.extname(file.originalname || '').toLowerCase();
       const mimeType = (file.mimetype || '').toLowerCase();
 
-      if (allowedTypes.includes(mimeType) || allowedExtensions.includes(ext) || mimeType.includes('csv') || mimeType.includes('pdf') || mimeType.includes('json')) {
+      if (allowedTypes.includes(mimeType) || allowedExtensions.includes(ext) || mimeType.includes('csv') || mimeType.includes('pdf') || mimeType.includes('json') || mimeType.includes('txt')) {
         cb(null, true);
       } else {
-        cb(new Error('Invalid file type. Only CSV, JSON, and PDF files are allowed.'));
+        cb(new Error('Invalid file type. Only CSV, JSON, PDF, and TXT files are allowed.'));
       }
     }
 });
