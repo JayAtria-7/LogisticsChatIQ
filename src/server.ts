@@ -226,9 +226,14 @@ app.post('/api/import', upload.single('file'), async (req, res) => {
       return res.status(400).json({ error: 'No file uploaded' });
     }
 
-    const sessionId = req.body.sessionId;
+    let sessionId = req.body.sessionId;
+    
+    // Auto-create session if missing or invalid
     if (!sessionId || !activeSessions.has(sessionId)) {
-      return res.status(400).json({ error: 'Invalid or missing session ID' });
+      sessionId = `session-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+      const sessionManager = new SessionManager(sessionId);
+      const conversationManager = new ConversationManager(sessionManager);
+      activeSessions.set(sessionId, { sessionManager, conversationManager });
     }
 
     const session = activeSessions.get(sessionId)!;

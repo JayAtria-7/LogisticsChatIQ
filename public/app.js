@@ -500,7 +500,9 @@ class ChatApp {
     const file = fileInput.files[0];
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('sessionId', this.sessionId);
+    
+    // Always send sessionId (can be null, server will create one)
+    formData.append('sessionId', this.sessionId || '');
 
     uploadBtn.disabled = true;
     uploadBtn.innerHTML = '<span>⏳</span> Uploading...';
@@ -515,6 +517,11 @@ class ChatApp {
 
       if (!response.ok) {
         throw new Error(result.error || 'Upload failed');
+      }
+
+      // Update sessionId if it was created by the server
+      if (result.sessionId && !this.sessionId) {
+        this.sessionId = result.sessionId;
       }
 
       // Display result
